@@ -9,6 +9,9 @@ subprojects {
     repositories {
         mavenLocal()
         jcenter()
+		maven {
+			url = 'https://mvn.lumine.io/repository/maven-public/'
+		}
     }
 
     sourceCompatibility = 1.8
