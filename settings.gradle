@@ -1,4 +1,34 @@
-rootProject.name = 'panilla'
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
+    repositories {
+        def customMavenLocal = System.getProperty('SELF_MAVEN_LOCAL_REPO')
+        if (customMavenLocal) {
+            if (customMavenLocal.startsWith('~')) {
+                customMavenLocal = customMavenLocal.replaceFirst('^~', System.getProperty('user.home'))
+            }
+            def mavenLocalDir = new File(customMavenLocal)
+            if (mavenLocalDir.isDirectory()) {
+                println "Using SELF_MAVEN_LOCAL_REPO at: ${mavenLocalDir}"
+                maven {
+                    url = uri("file://${mavenLocalDir.absolutePath}")
+                }
+            } else {
+                logger.error("TrueOG Bootstrap not found, defaulting to ~/.m2 for mavenLocal()")
+                mavenLocal()
+            }
+        } else {
+            logger.error("TrueOG Bootstrap not found, defaulting to ~/.m2 for mavenLocal()")
+            mavenLocal()
+        }
+        mavenLocal()
+        jcenter()
+        maven {
+            url = 'https://mvn.lumine.io/repository/maven-public/'
+        }
+    }
+}
+
+rootProject.name = 'Panilla'
 
 // api
 include(':panilla-api')
