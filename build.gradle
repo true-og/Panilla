@@ -1,3 +1,7 @@
+plugins {
+    id 'eclipse'
+}
+
 allprojects {
     group = 'com.ruinscraft'
     version = '1.9.0'
@@ -6,18 +10,13 @@ allprojects {
 subprojects {
     apply plugin: 'java'
 
-    repositories {
-        mavenLocal()
-        jcenter()
-		maven {
-			url = 'https://mvn.lumine.io/repository/maven-public/'
-		}
+    java {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
-
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
 }
 
-task clean {
-    delete './target'
+tasks.register('clean', Delete) {
+    delete 'target'
 }
+

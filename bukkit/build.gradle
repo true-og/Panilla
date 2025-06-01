@@ -1,3 +1,10 @@
+plugins {
+    id 'java'
+    id 'com.gradleup.shadow' version '8.3.5'
+}
+
+def pluginVersion = rootProject.version
+
 dependencies {
     implementation project(':panilla-api')
     implementation project(':panilla-craftbukkit-v1_8_R3')
@@ -11,50 +18,42 @@ dependencies {
     implementation project(':panilla-craftbukkit-v1_17_R1')
     implementation project(':panilla-craftbukkit-v1_18_R1')
     implementation project(':panilla-craftbukkit-v1_18_R2')
-	implementation project(':panilla-craftbukkit-v1_19_R1')
-	implementation project(':panilla-craftbukkit-v1_19_R2')
-	implementation project(':panilla-craftbukkit-v1_19_R3')
-    implementation 'org.bukkit:bukkit-1.13:dev' // use 1.13 Bukkit API
-	compileOnly("org.spigotmc:spigot-api:1.19.4-R0.1-SNAPSHOT")
-    compileOnly("org.spigotmc:spigot:1.19.4-R0.1-SNAPSHOT")
+    implementation project(':panilla-craftbukkit-v1_19_R1')
+    implementation project(':panilla-craftbukkit-v1_19_R2')
+    implementation project(':panilla-craftbukkit-v1_19_R3')
+    implementation 'org.bukkit:bukkit-1.13:dev'
+    compileOnly 'org.spigotmc:spigot-api:1.19.4-R0.1-SNAPSHOT'
+    compileOnly 'org.spigotmc:spigot:1.19.4-R0.1-SNAPSHOT'
 }
 
-buildscript {
-    repositories {
-        gradlePluginPortal()
-    }
-    dependencies {
-        classpath 'gradle.plugin.com.github.jengelman.gradle.plugins:shadow:7.0.0'
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
     }
 }
 
 processResources {
-    filesMatching('**plugin.yml') {
-        expand(
-            'version': project.parent.version
-        )
+    filesMatching('**/plugin.yml') {
+        expand('version': pluginVersion)
     }
 }
 
-apply plugin: 'com.github.johnrengelman.shadow'
-
 shadowJar {
-    archiveName('Panilla.jar')
-    destinationDir(file('../target/bukkit'))
+    archiveFileName = 'Panilla.jar'
+    destinationDirectory = file('../target/bukkit')
 }
 
-tasks.named("assemble") {
-    dependsOn("shadowJar")
+tasks.named('assemble') {
+    dependsOn shadowJar
 }
 
-tasks.register("runCopyJarScript", Exec) {
-    group = "build"
-    description = "Runs the copyjar.sh script after build completion."
+tasks.register('runCopyJarScript', Exec) {
+    group = 'build'
     workingDir rootDir
-    commandLine "sh", "copyjar.sh", project.version.toString()
+    commandLine 'sh', 'copyjar.sh', project.version.toString()
 }
 
-tasks.named("build") {
-    finalizedBy("runCopyJarScript")
+tasks.named('build') {
+    finalizedBy 'runCopyJarScript'
 }
 
