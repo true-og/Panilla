@@ -3,7 +3,7 @@ import org.gradle.api.tasks.Copy
 
 plugins {
     java
-    id("com.gradleup.shadow") version "8.3.5"
+    id("com.gradleup.shadow") version "8.3.8"
 }
 
 val pluginVersion = rootProject.version.toString()
