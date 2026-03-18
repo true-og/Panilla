@@ -3,7 +3,6 @@ package com.ruinscraft.panilla.bukkit;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
-import org.bukkit.block.ShulkerBox;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -51,17 +50,18 @@ public class TileLootTableListener implements Listener {
 
         if (itemStack.getItemMeta() instanceof BlockStateMeta) {
             BlockStateMeta blockStateMeta = (BlockStateMeta) itemStack.getItemMeta();
+            BlockState blockState = blockStateMeta.getBlockState();
 
-            if (blockStateMeta.getBlockState() instanceof ShulkerBox) {
-                ShulkerBox shulker = (ShulkerBox) blockStateMeta.getBlockState();
+            if (blockState instanceof Lootable) {
+                Lootable lootable = (Lootable) blockState;
 
                 try {
-                    if (shulker.getLootTable() != null) {
-                        shulker.getLootTable().getKey();
+                    if (lootable.getLootTable() != null) {
+                        lootable.getLootTable().getKey();
                     }
                 } catch (Exception e) {
-                    shulker.setLootTable(null);
-                    blockStateMeta.setBlockState(shulker);
+                    lootable.setLootTable(null);
+                    blockStateMeta.setBlockState(blockState);
                     itemStack.setItemMeta(blockStateMeta);
                     event.setCancelled(true);
                 }
