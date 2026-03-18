@@ -1,20 +1,23 @@
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
     repositories {
-        val custom = System.getProperty("SELF_MAVEN_LOCAL_REPO")?.let {
-            if (it.startsWith("~")) it.replaceFirst("^~".toRegex(), System.getProperty("user.home")) else it
-        }
-        if (custom != null) {
-            val dir = File(custom)
+        maven { url = uri("file://${System.getProperty("user.home")}/.m2/repository") }
+        System.getProperty("SELF_MAVEN_LOCAL_REPO")?.let { custom ->
+            val dir = file(
+                if (custom.startsWith("~")) {
+                    custom.replaceFirst("^~".toRegex(), System.getProperty("user.home"))
+                } else {
+                    custom
+                }
+            )
             if (dir.isDirectory) {
-                println("Using SELF_MAVEN_LOCAL_REPO at: $dir")
-                maven { url = uri(dir) }
+                println("Using SELF_MAVEN_LOCAL_REPO at: $custom")
+                maven { url = uri("file://${dir.absolutePath}") }
             } else {
+                logger.error("TrueOG Bootstrap not found, defaulting to ~/.m2 for mavenLocal()")
                 mavenLocal()
             }
-        } else {
-            mavenLocal()
-        }
+        } ?: logger.error("TrueOG Bootstrap not found, defaulting to ~/.m2 for mavenLocal()")
         mavenCentral()
         maven { url = uri("https://mvn.lumine.io/repository/maven-public/") }
     }
@@ -57,4 +60,3 @@ project(":panilla-craftbukkit-v1_19_R1").projectDir = file("craftbukkit-v1_19_R1
 project(":panilla-craftbukkit-v1_19_R2").projectDir = file("craftbukkit-v1_19_R2")
 project(":panilla-craftbukkit-v1_19_R3").projectDir = file("craftbukkit-v1_19_R3")
 project(":panilla-bukkit").projectDir = file("bukkit")
-
