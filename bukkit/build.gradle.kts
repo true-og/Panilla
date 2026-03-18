@@ -54,7 +54,7 @@ val pluginJar by tasks.registering(Jar::class) {
     group = LifecycleBasePlugin.BUILD_GROUP
     description = "Assembles the deployable Panilla-OG plugin jar."
 
-    archiveFileName.set("Panilla-${pluginVersion}.jar")
+    archiveFileName.set("Panilla-OG-${pluginVersion}.jar")
     destinationDirectory.set(rootProject.layout.buildDirectory.dir("libs"))
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
