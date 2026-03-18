@@ -17,6 +17,12 @@ fun orgSpigotContentFilter(repository: org.gradle.api.artifacts.repositories.Mav
     }
 }
 
+fun mojangLibrariesContentFilter(repository: org.gradle.api.artifacts.repositories.MavenArtifactRepository) {
+    repository.content {
+        includeGroup("com.mojang")
+    }
+}
+
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
     repositories {
@@ -37,6 +43,10 @@ dependencyResolutionManagement {
         }
 
         mavenCentral()
+        maven("https://libraries.minecraft.net/") {
+            name = "MojangLibraries"
+            mojangLibrariesContentFilter(this)
+        }
         maven { url = uri("https://mvn.lumine.io/repository/maven-public/") }
         maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/") {
             name = "SpigotSnapshots"
