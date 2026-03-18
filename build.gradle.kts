@@ -1,4 +1,6 @@
 import org.gradle.api.artifacts.component.ModuleComponentSelector
+import org.gradle.jvm.toolchain.JavaLanguageVersion
+import org.gradle.jvm.toolchain.JvmVendorSpec
 
 plugins {
     id("eclipse")
@@ -25,6 +27,10 @@ subprojects {
     apply(plugin = "java")
 
     extensions.configure<JavaPluginExtension> {
+        toolchain {
+            languageVersion.set(JavaLanguageVersion.of(17))
+            vendor.set(JvmVendorSpec.GRAAL_VM)
+        }
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
