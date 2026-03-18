@@ -1,6 +1,7 @@
 import org.gradle.api.tasks.SourceSetContainer
 import org.gradle.jvm.tasks.Jar
 import org.gradle.jvm.toolchain.JavaLanguageVersion
+import org.gradle.jvm.toolchain.JvmVendorSpec
 
 plugins {
     java
@@ -39,6 +40,7 @@ dependencies {
 java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(17))
+        vendor.set(JvmVendorSpec.GRAAL_VM)
     }
 }
 
@@ -50,11 +52,9 @@ tasks.processResources {
 
 val pluginJar by tasks.registering(Jar::class) {
     group = LifecycleBasePlugin.BUILD_GROUP
-    description = "Assembles the deployable Panilla plugin jar."
+    description = "Assembles the deployable Panilla-OG plugin jar."
 
-    archiveBaseName.set("Panilla")
-    archiveVersion.set(pluginVersion)
-    archiveClassifier.set("")
+    archiveFileName.set("Panilla-${pluginVersion}-.jar")
     destinationDirectory.set(rootProject.layout.buildDirectory.dir("libs"))
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 

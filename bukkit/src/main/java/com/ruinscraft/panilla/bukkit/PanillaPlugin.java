@@ -290,7 +290,7 @@ public class PanillaPlugin extends JavaPlugin implements IPanilla {
                         break imp;
                 }
             default:
-                getLogger().warning("Unknown server implementation. " + Bukkit.getVersion() + " may not be supported by Panilla.");
+                getLogger().warning("Unknown server implementation. " + Bukkit.getVersion() + " may not be supported by Panilla-OG.");
                 return;
         }
 

@@ -1,11 +1,11 @@
-# Panilla
-Panilla (the name) is a combination of the word Packet and Vanilla (as in Vanilla Minecraft).
+# Panilla-OG
+Panilla-OG (originally Panilla) is a combination of the word Packet and Vanilla (as in Vanilla Minecraft).
 
 [Support the development of this plugin and purchase a precompiled .jar file on SpigotMC](https://www.spigotmc.org/resources/65694/) (or compile your own for free)
 
 
 ## Overview
-Panilla is software to prevent abusive NBT and packets on Minecraft servers.
+Panilla-OG is software to prevent abusive NBT and packets on Minecraft servers.
 
 With this software, you will be able to prevent:
 
@@ -23,7 +23,7 @@ With this software, you will be able to prevent:
 - and more abusive NBT
 
 ## Supported Platforms
-Currently Panilla supports:
+Currently Panilla-OG supports:
 - Bukkit
   - CraftBukkit* 1.8.8
   - CraftBukkit* 1.12.x-1.19.x
@@ -33,8 +33,8 @@ Currently Panilla supports:
 If you would like support for a server platform or Minecraft version that is not listed, please make an issue on GitHub.  
 
 ## Compiling
-In order for you to compile Panilla, you will need to use [BuildTools, by SpigotMC](https://www.spigotmc.org/wiki/buildtools), and build each version of CraftBukkit which is supported by Panilla.
+In order for you to compile Panilla-OG, you will need to use [BuildTools, by SpigotMC](https://www.spigotmc.org/wiki/buildtools), and build each version of CraftBukkit which is supported by Panilla-OG.
 When you run BuildTools, it will add the dependencies required (CraftBukkit/Bukkit) to your local Maven repository.
-From there, you can compile the project with `./gradlew build`. The output plugin jars file will located in the `target/` directory.
+From there, you can compile the project with `./gradlew build`. The installable plugin jar is written to `build/libs/Panilla-<version>-.jar`.
 
-Java 17 is required to build Panilla.
+Gradle 8.14.3 with GraalVM Java 17 is required to build Panilla-OG.

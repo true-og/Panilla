@@ -63,7 +63,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Panilla"
+rootProject.name = "Panilla-OG"
 
 include(
     ":panilla-api",

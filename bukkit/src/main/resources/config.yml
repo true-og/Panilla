@@ -1,5 +1,5 @@
 ##################################################################
-# Panilla Bukkit Configuration
+# Panilla-OG Bukkit Configuration
 #
 # Resource page: https://www.spigotmc.org/resources/65694/
 # Source code: https://github.com/Ruinscraft/Panilla
@@ -30,8 +30,8 @@ prevent-minecraft-education-skulls: false
 # out FAWE brush items which may trick others into accidentally WorldEdit'ing
 prevent-fawe-brush-nbt: false
 
-# When checking packets, by default, Panilla will check any inventory (player, chest, etc...)
-# Setting this to true will make Panilla only check player inventories
+# When checking packets, by default, Panilla-OG will check any inventory (player, chest, etc...)
+# Setting this to true will make Panilla-OG only check player inventories
 
 # This can help with ensuring custom GUI's in plugins don't get flagged
 # This may also marginally improve performance
@@ -48,7 +48,7 @@ no-block-entity-tag: false
 nbt-whitelist:
 #  - Enchantments
 
-# Prevent Panilla from checking NBT in certain worlds
+# Prevent Panilla-OG from checking NBT in certain worlds
 # Effectively sets the world to the lenient strictness (to prevent crash exploits)
 # Case sensitive!
 disabled-worlds:
