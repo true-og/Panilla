@@ -1,25 +1,55 @@
+val homeMavenRepo = uri("file://${System.getProperty("user.home")}/.m2/repository")
+val configuredLocalRepo = System.getProperty("SELF_MAVEN_LOCAL_REPO")
+    ?.takeIf { it.isNotBlank() }
+    ?.let { custom ->
+        val resolvedPath = if (custom.startsWith("~")) {
+            custom.replaceFirst("^~".toRegex(), System.getProperty("user.home"))
+        } else {
+            custom
+        }
+        file(resolvedPath).takeIf { it.isDirectory }
+    }
+
+fun orgSpigotContentFilter(repository: org.gradle.api.artifacts.repositories.MavenArtifactRepository) {
+    repository.content {
+        includeGroup("org.spigotmc")
+        includeGroup("org.bukkit")
+    }
+}
+
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
     repositories {
-        maven { url = uri("file://${System.getProperty("user.home")}/.m2/repository") }
-        System.getProperty("SELF_MAVEN_LOCAL_REPO")?.let { custom ->
-            val dir = file(
-                if (custom.startsWith("~")) {
-                    custom.replaceFirst("^~".toRegex(), System.getProperty("user.home"))
-                } else {
-                    custom
-                }
-            )
-            if (dir.isDirectory) {
-                println("Using SELF_MAVEN_LOCAL_REPO at: $custom")
-                maven { url = uri("file://${dir.absolutePath}") }
-            } else {
-                logger.error("TrueOG Bootstrap not found, defaulting to ~/.m2 for mavenLocal()")
-                mavenLocal()
+        maven {
+            name = "UserLocalMaven"
+            url = homeMavenRepo
+        }
+
+        configuredLocalRepo?.let { dir ->
+            println("Using SELF_MAVEN_LOCAL_REPO at: ${dir.absolutePath}")
+            maven {
+                name = "SelfLocalMaven"
+                url = uri(dir)
             }
-        } ?: logger.error("TrueOG Bootstrap not found, defaulting to ~/.m2 for mavenLocal()")
+        } ?: run {
+            println("TrueOG Bootstrap not found; using public Spigot mirrors alongside ~/.m2 for dependencies.")
+            mavenLocal()
+        }
+
         mavenCentral()
         maven { url = uri("https://mvn.lumine.io/repository/maven-public/") }
+        maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/") {
+            name = "SpigotSnapshots"
+            orgSpigotContentFilter(this)
+        }
+        maven("https://repo.loohpjames.com/repository/") {
+            name = "LoohpMirror"
+            orgSpigotContentFilter(this)
+        }
+        maven("https://maven.elmakers.com/repository/") {
+            name = "ElMakersMirror"
+            orgSpigotContentFilter(this)
+        }
     }
 }
 
